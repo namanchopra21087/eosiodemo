@@ -1,7 +1,7 @@
 #pragma once
 #include <eosio/action.hpp>
 #include <eosio/eosio.hpp>
-\
+
 // Generic eosio library, i.e. print, type, math, etc
 using namespace eosio;
 
@@ -10,14 +10,14 @@ namespace tte {
 // IMPORTANT: Must be the same as the --filter-name parameter's value of rodeos
 static constexpr auto contract_account = "ordercontrct"_n;
 
-class[[eosio::contract("ordercontrct")]] ordercontrct : public contract
+CONTRACT ordercontrct : public contract
 {
 public:
     using contract::contract;
     ordercontrct(name receiver, name code, datastream<const char *> ds) : contract(receiver, code, ds) {}
 
     // one single e-product
-    struct [[eosio::table]] product
+    TABLE product
     {
         uint16_t      id = 0;
         std::string   title;
@@ -30,7 +30,7 @@ public:
     };
 
     // order
-    struct [[eosio::table]] order
+    TABLE order
     {
         uint16_t             id = 0;
         uint16_t             userid = 0;
@@ -45,14 +45,11 @@ public:
     typedef eosio::multi_index<"products"_n, product> products;
     typedef eosio::multi_index<"orders"_n, order>     orders;
 
-    [[eosio::action]]
-    void addproduct(const std::string &title, const std::string &description, const std::string &url, const float &price);
+    ACTION addproduct(const std::string &title, const std::string &description, const std::string &url, const float &price);
 
-    [[eosio::action]]
-    void addorder( uint16_t userid, const std::vector<uint8_t> &items, const std::string &status);
+    ACTION addorder( uint16_t userid, const std::vector<uint8_t> &items, const std::string &status);
 
-    [[eosio::action]]
-    void updateorder(uint16_t id,  uint16_t userid, const std::vector<uint8_t> &items, const std::string &status);
+    ACTION updateorder(uint16_t id,  uint16_t userid, const std::vector<uint8_t> &items, const std::string &status);
 
 protected:
     uint16_t addorder_impl( uint16_t                     userid,
