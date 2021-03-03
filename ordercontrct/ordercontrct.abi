@@ -1,0 +1,156 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT ",
+    "version": "eosio::abi/1.1",
+    "types": [],
+    "structs": [
+        {
+            "name": "addorder",
+            "base": "",
+            "fields": [
+                {
+                    "name": "userid",
+                    "type": "uint16"
+                },
+                {
+                    "name": "items",
+                    "type": "uint8[]"
+                },
+                {
+                    "name": "status",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "addproduct",
+            "base": "",
+            "fields": [
+                {
+                    "name": "title",
+                    "type": "string"
+                },
+                {
+                    "name": "description",
+                    "type": "string"
+                },
+                {
+                    "name": "url",
+                    "type": "string"
+                },
+                {
+                    "name": "price",
+                    "type": "float32"
+                }
+            ]
+        },
+        {
+            "name": "order",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint16"
+                },
+                {
+                    "name": "userid",
+                    "type": "uint16"
+                },
+                {
+                    "name": "items",
+                    "type": "uint8[]"
+                },
+                {
+                    "name": "status",
+                    "type": "string"
+                },
+                {
+                    "name": "total",
+                    "type": "float32"
+                }
+            ]
+        },
+        {
+            "name": "product",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint16"
+                },
+                {
+                    "name": "title",
+                    "type": "string"
+                },
+                {
+                    "name": "description",
+                    "type": "string"
+                },
+                {
+                    "name": "url",
+                    "type": "string"
+                },
+                {
+                    "name": "price",
+                    "type": "float32"
+                }
+            ]
+        },
+        {
+            "name": "updateorder",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint16"
+                },
+                {
+                    "name": "userid",
+                    "type": "uint16"
+                },
+                {
+                    "name": "items",
+                    "type": "uint8[]"
+                },
+                {
+                    "name": "status",
+                    "type": "string"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "name": "addorder",
+            "type": "addorder",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "addproduct",
+            "type": "addproduct",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "updateorder",
+            "type": "updateorder",
+            "ricardian_contract": ""
+        }
+    ],
+    "tables": [
+        {
+            "name": "orders",
+            "type": "order",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "products",
+            "type": "product",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [],
+    "variants": []
+}
