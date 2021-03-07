@@ -27,12 +27,12 @@ class OrderEntryApp extends React.Component {
   constructor(props) {
     super(props)
     const ourNetwork={
-      chainId:"cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f",
-      rpcEndpoints:[{protocol:"http",host:"localhost",port:8888}]
+      chainId:'cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f',
+      rpcEndpoints:[{protocol:'http',host:'localhost',port:8888}]
     };
     this.state = {
       ...defaultState,
-      rpc:new JsonRpc('${ourNetwork.rpcEndpoints.protocol},${ourNetwork.rpcEndpoints.host},${ourNetwork.rpcEndpoints.port}')
+      rpc:new JsonRpc('http://localhost:8888')
     }
     this.updateAccountName = this.updateAccountName.bind(this)
     this.renderOrderButton = this.renderOrderButton.bind(this)
@@ -154,7 +154,7 @@ class OrderEntryApp extends React.Component {
     // Once UAL wrapper is implemented, uncomment below lines
     
     const { ual: { activeUser } } = this.props
-    const { accountName } = this.state.rpc.get_account(this.state.accountName);
+    const { accountName } = this.state.rpc.get_account('eosiotraing');
     modalButton = !activeUser && this.renderModalButton()
     logoutBtn = this.renderLogoutBtn()
     loggedIn = accountName ? `Logged in as ${accountName}` : ''

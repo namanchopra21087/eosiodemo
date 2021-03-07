@@ -18,7 +18,7 @@ function App() {
   };
   const anchor=new Anchor([ourNetwork],{
     appName:'OrderEntryApp',
-    rpc:new JsonRpc('${ourNetwork.rpcEndpoints.protocol},${ourNetwork.rpcEndpoints.host},${ourNetwork.rpcEndpoints.port}'),
+    rpc:new JsonRpc('http://localhost:8888'),
     service:"https://cb.anchor.link",
     disableGreymassFuel:false,
     requestStatus:false
