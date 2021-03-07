@@ -22,7 +22,8 @@ const defaultState = {
 }
 
 class OrderEntryApp extends React.Component {
-  static displayName = 'OrderEntryApp'
+  static displayName = 'OrderEntryApp';
+  userid;
 
   constructor(props) {
     super(props)
@@ -52,8 +53,8 @@ class OrderEntryApp extends React.Component {
         name:'addorder',
         authorization:[{actor:accountName,permission:'active'}],
         data:{
-          userid:1003,
-          items:orderItems,
+          userid:this.userid+1,
+          items:orderItems.split(","),
           status:'Active'
         }
       }]
@@ -155,6 +156,18 @@ class OrderEntryApp extends React.Component {
     
     const { ual: { activeUser } } = this.props
     const { accountName } = this.state.rpc.get_account('eosiotraing');
+    this.state.rpc.get_table_rows({
+      json:true,
+      code:'eosiotraing',
+      scope:'eosiotraing',
+      table:'orders',
+      limit:1,
+      reverse:true,
+      show_payer:false
+    }).then(resp=>{
+      this.userid=resp.rows[0].userid;
+    });
+
     modalButton = !activeUser && this.renderModalButton()
     logoutBtn = this.renderLogoutBtn()
     loggedIn = accountName ? `Logged in as ${accountName}` : ''
