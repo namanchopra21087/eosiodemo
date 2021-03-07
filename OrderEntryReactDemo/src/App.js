@@ -5,7 +5,7 @@
 */
 
 import React from 'react';
-import { JsonRpc } from 'eosjs'
+import { JsonRpc } from 'eosjs';
 import OrderEntryApp from './components/orderentry';
 
 import { UALProvider, withUAL } from 'ual-reactjs-renderer';

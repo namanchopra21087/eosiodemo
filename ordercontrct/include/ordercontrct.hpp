@@ -8,7 +8,7 @@ using namespace eosio;
 namespace tte {
 
 // IMPORTANT: Must be the same as the --filter-name parameter's value of rodeos
-static constexpr auto contract_account = "ordercontrct"_n;
+static constexpr auto contract_account = "eosiotraing"_n;
 
 CONTRACT ordercontrct : public contract
 {
