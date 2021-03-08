@@ -24,6 +24,7 @@ const defaultState = {
 class OrderEntryApp extends React.Component {
   static displayName = 'OrderEntryApp';
   userid;
+  activeUser=null;
 
   constructor(props) {
     super(props)
@@ -102,6 +103,7 @@ class OrderEntryApp extends React.Component {
   renderLogoutBtn = () => {
     const { ual: { activeUser, activeAuthenticator, logout } } = this.props
     if (!!activeUser && !!activeAuthenticator) {
+      this.activeUser=null;
       return (
         <p className='ual-btn-wrapper'>
           <Button variant='outline-danger' onClick={logout}>
@@ -120,6 +122,10 @@ class OrderEntryApp extends React.Component {
           className='ual-generic-button'>Connect to Wallet</Button>
       </p>
     )
+  }
+
+  renderAchorModal(){
+    window.location.reload();
   }
 
 
@@ -154,7 +160,12 @@ class OrderEntryApp extends React.Component {
 
     // Once UAL wrapper is implemented, uncomment below lines
     
-    const { ual: { activeUser } } = this.props
+    const u=this.props.ual.activeUser;
+    if(u!=undefined || u!=null){
+       this.activeUser  = u.accountName;
+       loggedIn = u.accountName ? `Logged in as ${u.accountName}` : ''
+    }
+    
     const { accountName } = this.state.rpc.get_account('eosiotraing');
     this.state.rpc.get_table_rows({
       json:true,
@@ -168,18 +179,16 @@ class OrderEntryApp extends React.Component {
       this.userid=resp.rows[0].userid;
     });
 
-    modalButton = !activeUser && this.renderModalButton()
+    modalButton = !this.activeUser && this.renderModalButton()
     logoutBtn = this.renderLogoutBtn()
-    loggedIn = accountName ? `Logged in as ${accountName}` : ''
-    
 
     return (
-      <div style={{ textAlign: 'center', paddingTop: '50px' }}>
-        <h2>Order Entry React Demo</h2>
-        <span>EOSIO Training & Certification, AD101</span>
+      <div  style={{ textAlign: 'center'}}>
+        <img src="https://bolttech-image.s3-ap-southeast-1.amazonaws.com/images/ph/phase2_welcome_banner.jpg" height="200"/>
+        <h2 style={{color:'#2EB5C7'}}>Bolttech Wallet App</h2>
         <div style={{marginBottom: '20px'}}></div>
         {modalButton}
-        <h3 className='ual-subtitle'>{loggedIn}</h3>
+        <h3 style={{color:'#ffc107'}}>{loggedIn}</h3>
         {this.renderOrderForm()}
         {orderBtn}
         {logoutBtn}
