@@ -7,9 +7,9 @@
 import React from 'react';
 import { JsonRpc } from 'eosjs';
 import OrderEntryApp from './components/orderentry';
-
 import { UALProvider, withUAL } from 'ual-reactjs-renderer';
 import {Anchor} from 'ual-anchor';
+
 function App() {
   
   const ourNetwork={

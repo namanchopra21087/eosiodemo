@@ -14,6 +14,7 @@ import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './orderentry.css';
 import { JsonRpc } from 'eosjs';
+import Table from "../table"
 
 const defaultState = {
   activeUser: null, //to store user object from UAL
@@ -25,6 +26,8 @@ class OrderEntryApp extends React.Component {
   static displayName = 'OrderEntryApp';
   userid;
   activeUser=null;
+  respData=null;
+  data=null;
 
   constructor(props) {
     super(props)
@@ -42,6 +45,7 @@ class OrderEntryApp extends React.Component {
     this.renderModalButton = this.renderModalButton.bind(this)
     this.handleOrderUpdate = this.handleOrderUpdate.bind(this)
     this.renderOrderForm = this.renderOrderForm.bind(this)
+    this.loadTableData = this.loadTableData.bind(this)
   }
 
   // implement code to transact, using the order details, here
@@ -62,6 +66,8 @@ class OrderEntryApp extends React.Component {
     }
     try{
       await activeUser.signTransaction(orderTransaction,{broadcast:true});
+      this.loadTableData()
+      window.location.reload()
     }catch(error){
       console.warn(error);
     }
@@ -124,11 +130,6 @@ class OrderEntryApp extends React.Component {
     )
   }
 
-  renderAchorModal(){
-    window.location.reload();
-  }
-
-
   handleOrderUpdate = (event) => {
     this.setState({orderItems: event.target.value});
   }
@@ -152,12 +153,26 @@ class OrderEntryApp extends React.Component {
     )
   }
 
+  loadTableData () {
+    this.state.rpc.get_table_rows({
+      json:true,
+      code:'eosiotraing',
+      scope:'eosiotraing',
+      table:'orders',
+      limit:10,
+      reverse:true,
+      show_payer:false
+    }).then(resp=>{
+      this.respData=resp.rows;
+      this.userid=resp.rows[0].userid;
+    });      
+  }
+
   render() {
     let modalButton = this.renderModalButton()
     let loggedIn = ''
     let logoutBtn = null
     const orderBtn = this.renderOrderButton()
-
     // Once UAL wrapper is implemented, uncomment below lines
     
     const u=this.props.ual.activeUser;
@@ -167,21 +182,39 @@ class OrderEntryApp extends React.Component {
     }
     
     const { accountName } = this.state.rpc.get_account('eosiotraing');
-    this.state.rpc.get_table_rows({
-      json:true,
-      code:'eosiotraing',
-      scope:'eosiotraing',
-      table:'orders',
-      limit:1,
-      reverse:true,
-      show_payer:false
-    }).then(resp=>{
-      this.userid=resp.rows[0].userid;
-    });
-
     modalButton = !this.activeUser && this.renderModalButton()
     logoutBtn = this.renderLogoutBtn()
-
+    this.loadTableData()
+    if(this.respData!=null){
+      this.data =this.respData;
+    }else{
+      this.data =[];
+    }
+   
+    const columns = [
+      {
+        Header: "OrderData",
+        columns: [
+          {
+            Header: "ID",
+            accessor: "id"
+          },
+          {
+            Header: "UserId",
+            accessor: "userid"
+          },
+          {
+            Header: "Status",
+            accessor: "status"
+          },
+          {
+            Header: "Items",
+            accessor: "items"
+          },
+        ]
+      },
+    ];
+    
     return (
       <div  style={{ textAlign: 'center'}}>
         <img src="https://bolttech-image.s3-ap-southeast-1.amazonaws.com/images/ph/phase2_welcome_banner.jpg" height="200"/>
@@ -192,6 +225,9 @@ class OrderEntryApp extends React.Component {
         {this.renderOrderForm()}
         {orderBtn}
         {logoutBtn}
+        <div style={{backgroundColor:'white',paddingBottom:'10px'}}>
+        <Table columns={columns} data={this.data} />
+        </div>
       </div>
     )
   }
