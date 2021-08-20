@@ -54,7 +54,7 @@ class OrderEntryApp extends React.Component {
     console.log("With UAL implemented, this submits an order for items " + orderItems);
     const orderTransaction={
       actions:[{
-        account:'eosiotraing',
+        account:'bolttech',
         name:'addorder',
         authorization:[{actor:accountName,permission:'active'}],
         data:{
@@ -156,8 +156,8 @@ class OrderEntryApp extends React.Component {
   loadTableData () {
     this.state.rpc.get_table_rows({
       json:true,
-      code:'eosiotraing',
-      scope:'eosiotraing',
+      code:'bolttech',
+      scope:'bolttech',
       table:'orders',
       limit:10,
       reverse:true,
@@ -181,7 +181,7 @@ class OrderEntryApp extends React.Component {
        loggedIn = u.accountName ? `Logged in as ${u.accountName}` : ''
     }
     
-    const { accountName } = this.state.rpc.get_account('eosiotraing');
+    const { accountName } = this.state.rpc.get_account('bolttech');
     modalButton = !this.activeUser && this.renderModalButton()
     logoutBtn = this.renderLogoutBtn()
     this.loadTableData()
